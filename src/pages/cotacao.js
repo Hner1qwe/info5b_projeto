@@ -1,5 +1,40 @@
 import useSWR from 'swr';
 import { fetcher } from '../lib/fetcher';
+import { useState } from 'react';
+import styles from '../styles/Home.module.css';
+
+export default function Home() {
+  // chama a API de cotação
+  const { data, error, isLoading } = useSWR(
+    'https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL?token=927c456f9a4bec44887e5cc0e2d154c8f843f3855ec2e0d15db596ee7d19cd',
+    fetcher,
+    {
+      refreshInterval: 60000, // atualiza a cada 60s
+    }
+  );
+
+  if (error) return <div>❌ Erro ao carregar os dados.</div>;
+  if (isLoading || !data) return <div>⏳ Carregando...</div>;
+
+  const usdbrl = data.USDBRL;
+
+  return (
+    <main style={{ padding: '2rem', fontFamily: 'Arial' }}>
+      <h1>Cotação do Dólar (USD/BRL)</h1>
+      <p><strong>Compra:</strong> R$ {usdbrl.bid}</p>
+      <p><strong>Venda:</strong> R$ {usdbrl.ask}</p>
+      <p><strong>Alta:</strong> R$ {usdbrl.high}</p>
+      <p><strong>Baixa:</strong> R$ {usdbrl.low}</p>
+      <p>
+        <strong>Variação:</strong> {usdbrl.varBid} ({usdbrl.pctChange}%)
+      </p>
+      <small>
+        Última atualização:{" "}
+        {new Date(Number(usdbrl.timestamp) * 1000).toLocaleString()}
+      </small>
+    </main>
+  );
+}
 
 export default function Home() {
   const { data, error, isLoading } = useSWR(
@@ -25,3 +60,4 @@ export default function Home() {
     </main>
   );
 }
+ö
