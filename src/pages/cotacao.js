@@ -19,7 +19,7 @@ export default function Home() {
   const usdbrl = data.USDBRL;
 
   return (
-    <main style={{ padding: '2rem', fontFamily: 'Arial' }}>
+    <main style={{ padding: '2rem', fontFamily: 'Times new roman' }}>
       <h1>Cotação do Dólar (USD/BRL)</h1>
       <p><strong>Compra:</strong> R$ {usdbrl.bid}</p>
       <p><strong>Venda:</strong> R$ {usdbrl.ask}</p>
